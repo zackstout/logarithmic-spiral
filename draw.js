@@ -12,7 +12,7 @@ function setup() {
   // drawPoint(100, PI/2);
   drawSpiral(1, 0.17);
   // slider = createSlider(0, 1, 0.23, 0.01);
-  slider = createSlider(0, 1000, 100, 10);
+  slider = createSlider(0, 1000, 250, 4);
 }
 
 // x will be like resolution: how finely to draw?
@@ -72,14 +72,35 @@ function connectPoints(x, y) {
 }
 
 function drawRadius(val, a, b) {
-  // console.log('ay');
-  push();
+
   translate(width/2, height/2);
   let theta = val * 2 * PI / 100;
   let radius = a * Math.pow(e, b * theta);
   const x = radius * cos(theta);
   const y = radius * sin(theta);
-  // let point = {r: radius, theta: theta};
   line(0, 0, x, y);
+
+  push();
+  translate(x, y);
+  let rotation = Math.atan(1 / b);
+  let pitch = PI - rotation;
+  let radialAngle = Math.atan(y / x);
+  // if (x < 0) radialAngle = PI - Math.atan(y / x);
+  rotate(radialAngle - pitch - PI / 6);
+  line(-50, -50, 50, 50);
   pop();
+
+  console.log('radialangle', radialAngle);
+
 }
+
+
+
+
+
+// angle should be arctan(1/b) !!!
+
+
+
+
+// chillin

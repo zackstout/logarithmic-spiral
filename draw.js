@@ -2,7 +2,7 @@
 let width, height;
 const e = Math.exp(1);
 let count = 0;
-let slider;
+let slider, slider2;
 
 function setup() {
   width = 600;
@@ -12,7 +12,11 @@ function setup() {
   // drawPoint(100, PI/2);
   drawSpiral(1, 0.17);
   // slider = createSlider(0, 1, 0.23, 0.01);
+  createP("Move along the spiral:");
   slider = createSlider(0, 1000, 250, 4);
+
+  createP("Alter the spiral:");
+  slider2 = createSlider(0, 2, 0.23, 0.01);
 }
 
 // x will be like resolution: how finely to draw?
@@ -32,16 +36,18 @@ function drawSpiral(a, b) {
 }
 
 // Hmm I was going to do it by drawing line at angle, walking a short distance, at iterating. But it'd be nicer to just use the polar formula.
-function drawPoint(r, theta) {
-  push();
-  translate(width/2, height/2);
-  const x = r * cos(theta);
-  const y = r * sin(theta);
-  noStroke();
-  fill('steelblue');
-  ellipse(x, y, 3);
-  pop();
-}
+// function drawPoint(r, theta) {
+//   push();
+//   translate(width/2, height/2);
+//   const x = r * cos(theta);
+//   const y = r * sin(theta);
+//   noStroke();
+//   fill('steelblue');
+//   ellipse(x, y, 3);
+//   pop();
+// }
+
+
 
 // Interesting, appears to be unwinding:
 // function draw() {
@@ -50,12 +56,14 @@ function drawPoint(r, theta) {
 //   count += 0.001;
 // }
 
+
+
 function draw() {
   background(220);
   // drawSpiral(1, slider.value());
-  drawSpiral(1, 0.23);
+  drawSpiral(1, slider2.value());
 
-  drawRadius(slider.value(), 1, 0.23);
+  drawRadius(slider.value(), 1, slider2.value());
 }
 
 function connectPoints(x, y) {
@@ -83,14 +91,19 @@ function drawRadius(val, a, b) {
   push();
   translate(x, y);
   let rotation = Math.atan(1 / b);
-  let pitch = PI - rotation;
+  let pitch = PI/2 - rotation;
   let radialAngle = Math.atan(y / x);
   // if (x < 0) radialAngle = PI - Math.atan(y / x);
-  rotate(radialAngle - pitch - PI / 6);
-  line(-50, -50, 50, 50);
+
+  // well I'll be......that looks exactly right. But where is the 1/3 coming from????
+  // Ahhh it's not exactly 1/3, unsurprisingly.....It is a function of b, somehow.
+  rotate(pitch + radialAngle + 1/3);
+
+
+  line(-val/2, -val/2, val/2, val/2);
   pop();
 
-  console.log('radialangle', radialAngle);
+  // console.log('radialangle', radialAngle + pitch);
 
 }
 

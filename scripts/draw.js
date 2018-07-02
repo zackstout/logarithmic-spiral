@@ -4,6 +4,7 @@ const e = Math.exp(1);
 let count = 0;
 let slider, slider2;
 
+
 function setup() {
   width = 600;
   height = 600;
@@ -19,18 +20,26 @@ function setup() {
   slider2 = createSlider(0, 2, 0.23, 0.01);
 }
 
-// x will be like resolution: how finely to draw?
+
+function draw() {
+  background(220);
+  // drawSpiral(1, slider.value());
+  drawSpiral(1, slider2.value()); // Neat: When a=100, we can see that spiral collapses into a circle at one extreme.
+
+  drawRadius(slider.value(), 1, slider2.value());
+}
+
+
+
 function drawSpiral(a, b) {
   let prevPoint = {r: a, theta: 0};
 
   for (let i=0; i < 1000; i++) {
-    // drawPoint()
     let theta = i * 2 * PI / 100;
     let radius = a * Math.pow(e, b * theta);
-    // drawPoint(radius, theta);
     let point = {r: radius, theta: theta};
     connectPoints(prevPoint, point);
-    // Can we copy like this?:
+
     prevPoint = point;
   }
 }
@@ -58,13 +67,6 @@ function drawSpiral(a, b) {
 
 
 
-function draw() {
-  background(220);
-  // drawSpiral(1, slider.value());
-  drawSpiral(1, slider2.value());
-
-  drawRadius(slider.value(), 1, slider2.value());
-}
 
 function connectPoints(x, y) {
   push();
@@ -73,7 +75,6 @@ function connectPoints(x, y) {
   const ay = x.r * sin(x.theta);
   const bx = y.r * cos(y.theta);
   const by = y.r * sin(y.theta);
-  // line(0, 0, ax, ay);
 
   line(ax, ay, bx, by);
   pop();
@@ -104,7 +105,6 @@ function drawRadius(val, a, b) {
   pop();
 
   // console.log('radialangle', radialAngle + pitch);
-
 }
 
 

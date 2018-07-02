@@ -89,6 +89,7 @@ function drawRadius(val, a, b) {
   const y = radius * sin(theta);
   line(0, 0, x, y);
 
+// Draw Tangent:
   push();
   translate(x, y);
   let rotation = Math.atan(1 / b);
@@ -98,7 +99,8 @@ function drawRadius(val, a, b) {
 
   // well I'll be......that looks exactly right. But where is the 1/3 coming from????
   // Ahhh it's not exactly 1/3, unsurprisingly.....It is a function of b, somehow.
-  rotate(pitch + radialAngle + 1/3);
+  // Ok.....So we need PI / 4, interesting.
+  rotate(rotation - PI / 4 + radialAngle);
 
 
   line(-val/2, -val/2, val/2, val/2);
